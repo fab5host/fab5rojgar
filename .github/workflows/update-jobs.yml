@@ -1,8 +1,8 @@
-name: Auto Fetch Govt Jobs
+name: Auto Fetch Full Govt Jobs
 on:
   schedule:
-    - cron: '0 * * * *' # हर 1 घंटे में अपने आप चलेगा
-  workflow_dispatch: # आप खुद भी बटन दबाकर चला सकते हैं
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,42 +15,110 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Fetch Live Feeds
+      - name: Fetch Full Job Pages & Clean Content
         run: |
           node -e '
           const fs = require("fs");
+
+          function toSlug(str) {
+            return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 75);
+          }
+
+          function cleanFullHtml(rawHtml) {
+            let html = rawHtml
+              .replace(/<script[\s\S]*?<\/script>/gi, "")
+              .replace(/<style[\s\S]*?<\/style>/gi, "")
+              .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
+              .replace(/<ins[\s\S]*?<\/ins>/gi, "");
+
+            const bodyMatch =
+              html.match(/<div[^>]*class=["\x27][^"\x27]*(?:entry-content|post-body|post-content)[^"\x27]*["\x27][^>]*>([\s\S]*?)<\/div>\s*(?:<footer|<div[^>]*class=["\x27][^"\x27]*(?:comments|post-footer|sharedaddy))/i) ||
+              html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+
+            let content = bodyMatch ? bodyMatch[1] : "";
+
+            content = content
+              .replace(/\s(?:style|class|id|bgcolor|color|width|height)=["\x27][^"\x27]*["\x27]/gi, "")
+              .replace(/FreeJobAlert\.com/gi, "FAB5HOST")
+              .replace(/FreeJobAlert/gi, "FAB5HOST")
+              .replace(/SarkariResult\.com\.cm/gi, "FAB5HOST")
+              .replace(/Sarkari Result/gi, "FAB5HOST");
+
+            content = content.replace(/<a\s+[^>]*href=["\x27]([^"\x27]+)["\x27][^>]*>([\s\S]*?)<\/a>/gi, (match, href, text) => {
+              const lower = href.toLowerCase();
+              const isOfficial =
+                lower.includes(".gov.in") ||
+                lower.includes(".nic.in") ||
+                lower.endsWith(".pdf") ||
+                lower.includes("ibps.in") ||
+                lower.includes("sbi.co.in") ||
+                lower.includes("rrbcdg") ||
+                lower.includes("upsconline") ||
+                lower.includes("ssc.gov.in");
+
+              if (isOfficial) {
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="official-table-link">${text}</a>`;
+              }
+              return `<span>${text}</span>`;
+            });
+
+            return content;
+          }
+
           async function run() {
             const feeds = [
               "https://www.freejobalert.com/feed/",
-              "https://sarkariresult.com.cm/feed/",
-              "https://www.jagranjosh.com/rss/josh/government-jobs.xml"
+              "https://sarkariresult.com.cm/feed/"
             ];
             let all = [];
-            for (const url of feeds) {
+            const seen = new Set();
+
+            for (const feedUrl of feeds) {
               try {
-                const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+                const res = await fetch(feedUrl, { headers: { "User-Agent": "Mozilla/5.0" } });
                 const xml = await res.text();
                 const items = xml.match(/<item[\s\S]*?<\/item>/g) || [];
-                for (const item of items.slice(0, 20)) {
-                  const title = (item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || item.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "";
-                  const link = (item.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "";
-                  const pubDate = (item.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || new Date().toISOString();
-                  const desc = (item.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/) || item.match(/<description>([\s\S]*?)<\/description>/) || [])[1] || "";
-                  if (title && link) {
-                    all.push({ title: title.trim(), link: link.trim(), pubDate: pubDate.trim(), description: desc.trim() });
+
+                for (const item of items.slice(0, 15)) {
+                  const title = ((item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || item.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "").trim();
+                  const link = ((item.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "").trim();
+                  const pubDate = ((item.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || new Date().toISOString()).trim();
+                  const desc = ((item.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/) || item.match(/<description>([\s\S]*?)<\/description>/) || [])[1] || "").trim();
+
+                  if (!title || !link || seen.has(title.toLowerCase())) continue;
+                  seen.add(title.toLowerCase());
+
+                  let fullHtml = "";
+                  try {
+                    const pageRes = await fetch(link, { headers: { "User-Agent": "Mozilla/5.0" } });
+                    const pageText = await pageRes.text();
+                    fullHtml = cleanFullHtml(pageText);
+                  } catch (err) {
+                    fullHtml = desc;
                   }
+
+                  all.push({
+                    slug: toSlug(title),
+                    title,
+                    pubDate,
+                    content: fullHtml.length > 200 ? fullHtml : desc
+                  });
                 }
-              } catch (e) { console.log("Skip:", url); }
+              } catch (e) {
+                console.log("Feed error:", feedUrl);
+              }
             }
-            fs.writeFileSync("jobs.json", JSON.stringify(all, null, 2));
-            console.log("Saved jobs:", all.length);
+
+            if (all.length > 0) {
+              fs.writeFileSync("jobs.json", JSON.stringify(all, null, 2));
+              console.log("Saved FAB5HOST full pages:", all.length);
+            }
           }
           run();
           '
       - name: Commit Updated Jobs
         run: |
-          git config user.name "AutoJobBot"
+          git config user.name "FAB5HOST-Bot"
           git config user.email "bot@users.noreply.github.com"
           git add jobs.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update live jobs" && git push)
-          
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update FAB5HOST full job pages" && git push)
