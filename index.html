@@ -1,161 +1,783 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BharatRojgarDesk - Live Govt Jobs, Admit Card & Results</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAB5HOST – Government Jobs, Results &amp; Admit Cards</title>
+  <meta name="description" content="Daily updates on Indian government jobs, state government vacancies, admit cards, results, answer keys, syllabus and admissions. All updates in one place." />
+  <meta name="keywords" content="government jobs, sarkari result, admit card, latest jobs, FAB5HOST" />
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="https://images.cdn-files-a.com/admin/InterfaceStatisFiles/allOther/ads/site123/brand_kit_2026/SITE123-Logo-2026/web/icon-512.png?aspect_ratio=1:1&width=48&format=png" type="image/x-icon" />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- Your Exact FAB5HOST Theme CSS -->
+  <link rel="stylesheet" href="https://cdn-cms-s-8-4.f-static.net/manager/ai_app_builder/v3/assets/minimize_css/index.css?t=css_y254_67285989&w=12633089" />
+  <link rel="stylesheet" href="https://cdn-cms-s-8-4.f-static.net/manager/ai_app_builder/v3/assets/css/theme.css?t=css_y254_67285989&w=12633089" />
+  <link rel="stylesheet" href="https://cdn-cms-s-8-4.f-static.net/manager/ai_app_builder/v3/assets/css/main.css?t=css_y254_67285989&w=12633089" />
+  <link rel="stylesheet" href="https://cdn-cms-s-8-4.f-static.net/manager/ai_app_builder/v3/assets/css/components.css?t=css_y254_67285989&w=12633089" />
+  <link rel="stylesheet" href="https://cdn-cms-s-8-4.f-static.net/manager/ai_app_builder/v3/assets/css/layout.css?t=css_y254_67285989&w=12633089" />
+
   <style>
-    :root { --navy: #0B1F3A; --teal: #0D6E6E; --saffron: #D96B27; --bg: #F1F5F9; --border: #CBD5E1; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; }
-    body { background: var(--bg); color: #0F172A; line-height: 1.5; }
-    header { background: var(--navy); color: #fff; padding: 18px; text-align: center; border-bottom: 4px solid var(--saffron); }
-    .brand { font-size: 26px; font-weight: 800; cursor: pointer; }
-    .brand span { color: #FBBF24; }
-    nav { background: #1E293B; display: flex; justify-content: center; flex-wrap: wrap; }
-    nav button { background: none; border: none; color: #fff; padding: 12px 16px; font-weight: 700; cursor: pointer; }
-    nav button:hover, nav button.active { background: var(--saffron); }
-    .search-bar { max-width: 800px; margin: 15px auto; padding: 0 15px; display: flex; gap: 8px; }
-    .search-bar input { flex: 1; padding: 11px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
-    .container { max-width: 1200px; margin: 15px auto; padding: 0 15px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .card h2 { background: var(--navy); color: #fff; padding: 12px; font-size: 16px; }
-    .card.teal h2 { background: var(--teal); }
-    .card.green h2 { background: #065F46; }
-    ul { list-style: none; max-height: 550px; overflow-y: auto; }
-    li { padding: 12px; border-bottom: 1px solid #E2E8F0; }
-    li a { text-decoration: none; color: #0F172A; font-weight: 700; font-size: 14px; display: block; cursor: pointer; }
-    li a:hover { color: var(--teal); text-decoration: underline; }
-    .meta { font-size: 11px; color: #64748B; margin-top: 4px; }
-    #detail-box { display: none; background: #fff; border: 2px solid var(--navy); border-radius: 10px; padding: 20px; }
-    .btn { background: var(--navy); color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 8px; }
-    .btn-green { background: #16A34A; }
-    .btn-orange { background: var(--saffron); margin-top: 15px; }
-    .content-area { margin-top: 15px; padding: 15px; background: #F8FAFC; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
+    /* Mobile-First Enhancements & On-Site Article Page Styles */
+    html, body { max-width: 100%; overflow-x: hidden; }
+    .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .rowlink, .jobcard__title a, .update-item__title, .ticker__item, .catbox { cursor: pointer; }
+    
+    /* Mobile Drawer Fix */
+    .mobilemenu.is-open { display: block !important; opacity: 1 !important; visibility: visible !important; transform: translateX(0) !important; }
+
+    /* Single Job Page View (Inside FAB5HOST Design) */
+    #singlePostSection { display: none; padding: 30px 0 50px 0; }
+    .post-shell {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    @media (max-width: 640px) {
+      .post-shell { padding: 16px; border-radius: 10px; }
+    }
+    .post-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 15px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .post-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.85rem);
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .post-url-strip {
+      background: #f1f5f9;
+      border-left: 4px solid #2563eb;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #1e3a8a;
+      font-weight: 600;
+      word-break: break-all;
+      margin-bottom: 20px;
+    }
+    .post-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #1e293b;
+      overflow-x: auto;
+    }
+    .post-body h1, .post-body h2, .post-body h3, .post-body h4 {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 22px 0 12px 0;
+      text-align: center;
+    }
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: #fff;
+    }
+    .post-body th, .post-body td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .post-body tr:nth-child(even) { background: #f8fafc; }
+    .post-body ul, .post-body ol { padding-left: 22px; margin: 12px 0; }
+    .post-body li { margin-bottom: 6px; }
+    .official-table-link {
+      display: inline-block;
+      background: #2563eb;
+      color: #ffffff !important;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none !important;
+      font-weight: 600;
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
-
-<header>
-  <div class="brand" onclick="showHome()">Bharat<span>Rojgar</span>Desk</div>
-  <p style="font-size:13px; color:#CBD5E1;">Daily Auto-Updated Govt Jobs, Admit Card & Results</p>
-</header>
-
-<nav>
-  <button class="active" onclick="filterTab('ALL', this)">🏠 All Updates</button>
-  <button onclick="filterTab('JOBS', this)">🔥 Latest Jobs</button>
-  <button onclick="filterTab('ADMIT', this)">🎟️ Admit Cards</button>
-  <button onclick="filterTab('RESULT', this)">📊 Results</button>
-</nav>
-
-<div class="search-bar">
-  <input type="text" id="searchInput" onkeyup="searchJobs()" placeholder="Search SSC, Railway, Police, Army, Haryana, UP, Bihar...">
-</div>
-
-<div class="container">
-  <div class="grid" id="homeGrid">
-    <div class="card" id="boxJobs">
-      <h2>🔥 Latest Government Jobs</h2>
-      <ul id="listJobs"><li style="padding:20px; text-align:center;">डेटा लोड हो रहा है...</li></ul>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="topbar">
+      <div class="fab-container topbar__inner">
+        <div class="topbar__links">
+          <a href="#cat-admission" onclick="filterByCategory('Admission', event)">Admission</a>
+          <a href="#cat-state" onclick="filterByCategory('State Jobs', event)">State Jobs</a>
+          <a href="#cat-schemes" onclick="filterByCategory('Government Schemes', event)">Govt Schemes</a>
+          <a href="#footerAbout">About Us</a>
+          <a href="#footerAbout">Contact</a>
+        </div>
+        <div class="topbar__right">
+          <span class="topbar__date" id="topbarDate"></span>
+          <div class="topbar__share">
+            <button type="button" onclick="shareCurrentPage('whatsapp')" aria-label="Share FAB5HOST on WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </button>
+            <button type="button" onclick="shareCurrentPage('telegram')" aria-label="Share FAB5HOST on Telegram">
+              <i class="fa-brands fa-telegram"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card teal" id="boxAdmit">
-      <h2>🎟️ Admit Cards & Exam Dates</h2>
-      <ul id="listAdmit"><li style="padding:20px; text-align:center;">डेटा लोड हो रहा है...</li></ul>
+
+    <div class="fab-container">
+      <div class="site-header__bar">
+        <a aria-label="FAB5HOST home" class="brand" href="#" onclick="showHome(event)">
+          <span class="brand__mark"><i aria-hidden="true" class="fa-solid fa-landmark"></i></span>
+          <span class="brand__text">
+            <span class="brand__name">FAB5<span>HOST</span></span>
+            <span class="brand__tag">Your Future, Our Updates</span>
+          </span>
+        </a>
+
+        <nav class="mainnav" aria-label="Main navigation">
+          <a href="#" onclick="showHome(event)">Home</a>
+          <a href="#sec-latest-jobs" onclick="showHome()">Latest Jobs</a>
+          <a href="#sec-admit-cards" onclick="showHome()">Admit Card</a>
+          <a href="#sec-results" onclick="showHome()">Results</a>
+          <a href="#sec-answer-keys" onclick="showHome()">Answer Key</a>
+          <a href="#sec-updates" onclick="showHome()">Important Updates</a>
+        </nav>
+
+        <form class="header-search" onsubmit="handleSearchSubmit(event, 'headerSearchInput')" role="search">
+          <label class="sr-only" for="headerSearchInput">Search updates</label>
+          <input type="search" id="headerSearchInput" placeholder="Search jobs, results…" autocomplete="off" />
+          <button type="submit" aria-label="Search">
+            <i aria-hidden="true" class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+          <i aria-hidden="true" class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
-    <div class="card green" id="boxResult">
-      <h2>📊 Results & Answer Keys</h2>
-      <ul id="listResult"><li style="padding:20px; text-align:center;">डेटा लोड हो रहा है...</li></ul>
+
+    <!-- Mobile Menu -->
+    <div class="mobilemenu" id="mobileMenu">
+      <div class="mobilemenu__inner">
+        <div class="mobilemenu__top">
+          <span>FAB5HOST Menu</span>
+          <button type="button" class="mobilemenu__close" id="menuClose" aria-label="Close navigation menu">
+            <i aria-hidden="true" class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <form class="mobilemenu__search" onsubmit="handleSearchSubmit(event, 'mobileSearchInput')" role="search">
+          <input type="search" id="mobileSearchInput" placeholder="Search jobs, results…" autocomplete="off" />
+          <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <nav aria-label="Mobile navigation">
+          <a href="#" onclick="closeMobileAndGo('home')">Home</a>
+          <a href="#sec-latest-jobs" onclick="closeMobileAndGo('sec-latest-jobs')">Latest Jobs</a>
+          <a href="#sec-admit-cards" onclick="closeMobileAndGo('sec-admit-cards')">Admit Card</a>
+          <a href="#sec-results" onclick="closeMobileAndGo('sec-results')">Results</a>
+          <a href="#sec-answer-keys" onclick="closeMobileAndGo('sec-answer-keys')">Answer Key</a>
+          <a href="#sec-updates" onclick="closeMobileAndGo('sec-updates')">Important Updates</a>
+        </nav>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <div id="detail-box">
-    <button class="btn" onclick="showHome()">⬅️ Back</button>
-    <button class="btn btn-green" onclick="shareWA()">📲 Share on WhatsApp</button>
-    <h1 id="dTitle" style="font-size:20px; margin:15px 0; color:var(--navy);"></h1>
-    <p id="dLinkShow" style="font-size:12px; color:#1D4ED8; font-weight:bold; word-break:break-all;"></p>
-    <div class="content-area" id="dBody"></div>
-    <a id="dApply" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-orange">🔗 Open Official Notification / Apply Link</a>
-  </div>
-</div>
+  <main>
+    <!-- LIVE TICKER -->
+    <section class="ticker" aria-label="Latest updates ticker">
+      <div class="fab-container ticker__inner">
+        <span class="ticker__label"><i aria-hidden="true" class="fa-solid fa-bolt"></i> Latest Updates</span>
+        <div class="ticker__viewport">
+          <div class="ticker__track" id="dynamicTickerTrack">
+            <span class="ticker__item">Loading live recruitment updates...</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-  let allJobs = [];
+    <!-- ON-SITE FULL POST VIEW (Opens inside FAB5HOST design when any job is clicked) -->
+    <section id="singlePostSection">
+      <div class="fab-container">
+        <div class="post-shell">
+          <div class="post-topbar">
+            <button type="button" class="btn btn--primary btn--sm" onclick="showHome(event)">
+              <i class="fa-solid fa-arrow-left"></i> Back to All Updates
+            </button>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn--ghost btn--sm" onclick="shareCurrentPage('whatsapp')">
+                <i class="fa-brands fa-whatsapp"></i> Share WhatsApp
+              </button>
+              <button type="button" class="btn btn--ghost btn--sm" onclick="shareCurrentPage('telegram')">
+                <i class="fa-brands fa-telegram"></i> Telegram
+              </button>
+            </div>
+          </div>
 
-  async function init() {
-    try {
-      const res = await fetch('./jobs.json?v=' + Date.now());
-      allJobs = await res.json();
-      render();
-    } catch (e) {
-      document.getElementById('listJobs').innerHTML = '<li style="padding:20px;">कृपया GitHub Actions में जाकर एक बार "Run workflow" चलाएं।</li>';
+          <h1 class="post-title" id="singlePostTitle">Loading...</h1>
+          <div class="post-url-strip" id="singlePostUrl"></div>
+          <div class="post-body" id="singlePostBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN HOMEPAGE CONTENT -->
+    <div id="homeMainContent">
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="fab-container hero__inner">
+          <div class="hero__content">
+            <p class="hero__eyebrow"><i aria-hidden="true" class="fa-solid fa-bullhorn"></i> Updated every day</p>
+            <h1 class="hero__title">Government Jobs, Results &amp; Admit Cards – All Updates in One Place</h1>
+            <p class="hero__text">
+              FAB5HOST tracks central and state government recruitment so you never miss a notification. Search new vacancies, check results, download admit cards and read the latest exam updates.
+            </p>
+            <form class="hero__search" onsubmit="handleSearchSubmit(event, 'heroSearchInput')" role="search">
+              <label class="sr-only" for="heroSearchInput">Search government jobs</label>
+              <input type="search" id="heroSearchInput" placeholder="Search by post, department, state or qualification…" autocomplete="off" />
+              <button type="submit">
+                <i aria-hidden="true" class="fa-solid fa-magnifying-glass"></i>
+                <span>Search</span>
+              </button>
+            </form>
+            <div class="chips">
+              <a class="chip" href="#sec-latest-jobs" onclick="quickFilter('SSC')">SSC &amp; UPSC Jobs</a>
+              <a class="chip" href="#sec-latest-jobs" onclick="quickFilter('Railway')">Railway Jobs</a>
+              <a class="chip" href="#sec-results">Exam Results</a>
+              <a class="chip" href="#sec-admit-cards">Admit Cards</a>
+              <a class="chip" href="#sec-latest-jobs" onclick="quickFilter('')">Show All</a>
+            </div>
+          </div>
+          <div class="hero__art">
+            <img alt="Students preparing for Indian government competitive examinations" src="https://files.cdn-files-a.com/admin/system_photos_stock/800_6965dd53047bc.jpg?format=avif" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <!-- BROWSE BY CATEGORY -->
+      <section class="section section--alt">
+        <div class="fab-container">
+          <div class="section-head">
+            <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-grip"></i> Browse by Category</h2>
+            <a class="section-link" href="#sec-latest-jobs" onclick="quickFilter('')">View all updates <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="catgrid">
+            <a class="catbox catbox--1" href="#sec-latest-jobs" onclick="quickFilter('')">
+              <span class="catbox__icon"><i class="fa-solid fa-briefcase"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Latest Jobs</span><span class="catbox__desc">New government vacancies</span></span>
+              <span class="catbox__count"><span id="cnt-jobs">0</span> live</span>
+            </a>
+            <a class="catbox catbox--2" href="#sec-admit-cards">
+              <span class="catbox__icon"><i class="fa-solid fa-id-card"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Admit Card</span><span class="catbox__desc">Download hall tickets</span></span>
+              <span class="catbox__count"><span id="cnt-admit">0</span> live</span>
+            </a>
+            <a class="catbox catbox--3" href="#sec-results">
+              <span class="catbox__icon"><i class="fa-solid fa-square-poll-vertical"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Results</span><span class="catbox__desc">Check exam results</span></span>
+              <span class="catbox__count"><span id="cnt-results">0</span> live</span>
+            </a>
+            <a class="catbox catbox--4" href="#sec-answer-keys">
+              <span class="catbox__icon"><i class="fa-solid fa-key"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Answer Key</span><span class="catbox__desc">Official answer keys</span></span>
+              <span class="catbox__count"><span id="cnt-keys">0</span> live</span>
+            </a>
+            <a class="catbox catbox--5" href="#sec-latest-jobs" onclick="quickFilter('Syllabus')">
+              <span class="catbox__icon"><i class="fa-solid fa-book-open"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Syllabus</span><span class="catbox__desc">Exam pattern and syllabus</span></span>
+              <span class="catbox__count"><span id="cnt-syllabus">0</span> live</span>
+            </a>
+            <a class="catbox catbox--6" href="#sec-latest-jobs" onclick="quickFilter('Admission')">
+              <span class="catbox__icon"><i class="fa-solid fa-graduation-cap"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Admission</span><span class="catbox__desc">Entrance and admission</span></span>
+              <span class="catbox__count"><span id="cnt-admission">0</span> live</span>
+            </a>
+            <a class="catbox catbox--7" href="#sec-latest-jobs" onclick="quickFilter('Police')">
+              <span class="catbox__icon"><i class="fa-solid fa-map-location-dot"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Police &amp; State Jobs</span><span class="catbox__desc">State-wise vacancies</span></span>
+              <span class="catbox__count"><span id="cnt-state">0</span> live</span>
+            </a>
+            <a class="catbox catbox--8" href="#sec-updates">
+              <span class="catbox__icon"><i class="fa-solid fa-landmark"></i></span>
+              <span class="catbox__body"><span class="catbox__title">Important Updates</span><span class="catbox__desc">Notices &amp; announcements</span></span>
+              <span class="catbox__count"><span id="cnt-updates">0</span> live</span>
+            </a>
+          </div>
+          <div class="notice">
+            <i aria-hidden="true" class="fa-solid fa-shield-halved"></i>
+            <p>FAB5HOST publishes information compiled from official government sources. Always verify eligibility, dates and fees on the official notification before applying.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- LATEST GOVERNMENT JOBS TABLE -->
+      <section class="section" id="sec-latest-jobs">
+        <div class="fab-container">
+          <div class="section-head">
+            <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-briefcase"></i> Latest Government Jobs</h2>
+            <a class="section-link" href="#sec-latest-jobs" onclick="quickFilter('')">Reset Filter <i class="fa-solid fa-rotate-right"></i></a>
+          </div>
+          <div class="tablewrap">
+            <table class="datatable">
+              <thead>
+                <tr>
+                  <th>Job / Post Name</th>
+                  <th class="hide-sm">Department</th>
+                  <th class="hide-sm">Qualification</th>
+                  <th>Updated</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="latestJobsTableBody">
+                <tr><td colspan="5" style="text-align:center; padding:25px;">Loading live vacancies...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIT CARDS -->
+      <section class="section section--alt" id="sec-admit-cards">
+        <div class="fab-container">
+          <div class="section-head">
+            <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-id-card"></i> Admit Cards</h2>
+          </div>
+          <div class="cardgrid" id="admitCardsGrid">
+            <p>Loading admit cards...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- LATEST RESULTS -->
+      <section class="section" id="sec-results">
+        <div class="fab-container">
+          <div class="section-head">
+            <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-square-poll-vertical"></i> Latest Results</h2>
+          </div>
+          <div class="cardgrid" id="resultsGrid">
+            <p>Loading results...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANSWER KEYS -->
+      <section class="section section--alt" id="sec-answer-keys">
+        <div class="fab-container">
+          <div class="section-head">
+            <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-key"></i> Answer Keys</h2>
+          </div>
+          <div class="tablewrap">
+            <table class="datatable">
+              <thead>
+                <tr>
+                  <th>Examination</th>
+                  <th class="hide-sm">Conducting Body</th>
+                  <th class="hide-sm">Published Date</th>
+                  <th>Answer Key</th>
+                </tr>
+              </thead>
+              <tbody id="answerKeysTableBody">
+                <tr><td colspan="4" style="text-align:center; padding:20px;">Loading answer keys...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPORTANT UPDATES & OFFICIAL LINKS -->
+      <section class="section section--alt" id="sec-updates">
+        <div class="fab-container">
+          <div class="split">
+            <div class="split__main">
+              <div class="section-head">
+                <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-bullhorn"></i> Important Updates</h2>
+              </div>
+              <ul class="update-list" id="importantUpdatesList">
+                <li class="update-item">Loading updates...</li>
+              </ul>
+            </div>
+
+            <aside class="split__side">
+              <h2 class="section-title"><i aria-hidden="true" class="fa-solid fa-link"></i> Official Govt Portals</h2>
+              <ul class="quicklinks">
+                <li><a href="https://ssc.gov.in/" rel="noopener" target="_blank"><i class="fa-solid fa-landmark"></i> Staff Selection Commission (SSC)</a></li>
+                <li><a href="https://upsc.gov.in/" rel="noopener" target="_blank"><i class="fa-solid fa-landmark-dome"></i> Union Public Service Commission</a></li>
+                <li><a href="https://www.ibps.in/" rel="noopener" target="_blank"><i class="fa-solid fa-building-columns"></i> IBPS Banking Portal</a></li>
+                <li><a href="https://indianrailways.gov.in/" rel="noopener" target="_blank"><i class="fa-solid fa-train"></i> Railway Recruitment Board (RRB)</a></li>
+                <li><a href="https://nta.ac.in/" rel="noopener" target="_blank"><i class="fa-solid fa-clipboard-check"></i> National Testing Agency (NTA)</a></li>
+                <li><a href="https://www.ncs.gov.in/" rel="noopener" target="_blank"><i class="fa-solid fa-briefcase"></i> National Career Service (NCS)</a></li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="footerAbout">
+    <div class="fab-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a aria-label="FAB5HOST home" class="brand brand--footer" href="#" onclick="showHome(event)">
+            <span class="brand__mark"><i class="fa-solid fa-landmark"></i></span>
+            <span class="brand__name brand__name--light">FAB5<span>HOST</span></span>
+          </a>
+          <p class="footer-about">
+            Government Jobs, Results &amp; Admit Cards – All Updates in One Place. FAB5HOST brings you daily updates on central and state government recruitment, admissions and examinations.
+          </p>
+          <div class="footer-share">
+            <button type="button" class="social-btn" onclick="shareCurrentPage('whatsapp')" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('telegram')" aria-label="Share on Telegram"><i class="fa-brands fa-telegram"></i></button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Categories</h2>
+          <ul class="footer-links">
+            <li><a href="#sec-latest-jobs" onclick="showHome()">Latest Jobs</a></li>
+            <li><a href="#sec-admit-cards" onclick="showHome()">Admit Card</a></li>
+            <li><a href="#sec-results" onclick="showHome()">Results</a></li>
+            <li><a href="#sec-answer-keys" onclick="showHome()">Answer Key</a></li>
+            <li><a href="#sec-updates" onclick="showHome()">Important Updates</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Quick Search</h2>
+          <ul class="footer-links">
+            <li><a href="#sec-latest-jobs" onclick="quickFilter('SSC')">SSC Vacancies</a></li>
+            <li><a href="#sec-latest-jobs" onclick="quickFilter('Railway')">Railway Vacancies</a></li>
+            <li><a href="#sec-latest-jobs" onclick="quickFilter('Police')">Police Recruitment</a></li>
+            <li><a href="#sec-latest-jobs" onclick="quickFilter('Bank')">Bank Recruitment</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Disclaimer</h2>
+          <p class="footer-about">
+            FAB5HOST is an independent information portal and is not affiliated with any Government department. Always verify eligibility, dates and fees from the official notification PDF before applying.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="footerYear">2026</span> FAB5HOST. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set Topbar Date
+    document.getElementById("topbarDate").innerText = new Date().toLocaleDateString("en-IN", {
+      weekday: "short", day: "numeric", month: "short", year: "numeric"
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById("menuToggle");
+    const menuClose = document.getElementById("menuClose");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuToggle.addEventListener("click", () => mobileMenu.classList.add("is-open"));
+    menuClose.addEventListener("click", () => mobileMenu.classList.remove("is-open"));
+
+    function closeMobileAndGo(targetId) {
+      mobileMenu.classList.remove("is-open");
+      showHome();
+      if (targetId !== "home") {
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
     }
-  }
 
-  function render() {
-    const jUl = document.getElementById('listJobs');
-    const aUl = document.getElementById('listAdmit');
-    const rUl = document.getElementById('listResult');
-    jUl.innerHTML = ''; aUl.innerHTML = ''; rUl.innerHTML = '';
+    // Dynamic Data Engine
+    let allPosts = [];
+    const baseSiteUrl = window.location.origin + window.location.pathname;
 
-    allJobs.forEach((job, i) => {
-      const t = job.title.toLowerCase();
-      const html = `<li class="j-item" data-t="${t}">
-        <a onclick="openJob(${i})">• ${job.title}</a>
-        <div class="meta">📅 ${new Date(job.pubDate).toLocaleDateString('hi-IN')}</div>
-      </li>`;
+    function detectDept(title) {
+      const t = title.toLowerCase();
+      if (t.includes("ssc")) return "Staff Selection Commission (SSC)";
+      if (t.includes("upsc")) return "Union Public Service Commission (UPSC)";
+      if (t.includes("railway") || t.includes("rrb")) return "Railway Recruitment Board (RRB)";
+      if (t.includes("ibps") || t.includes("sbi") || t.includes("bank")) return "Banking Sector";
+      if (t.includes("police") || t.includes("constable")) return "Police Department";
+      if (t.includes("army") || t.includes("navy") || t.includes("air force") || t.includes("agniveer")) return "Indian Defence";
+      if (t.includes("hssc") || t.includes("hpsc") || t.includes("haryana")) return "Haryana Govt";
+      if (t.includes("uppsc") || t.includes("upsssc")) return "Uttar Pradesh Govt";
+      if (t.includes("bpsc") || t.includes("bihar")) return "Bihar Govt";
+      return "Government Recruitment";
+    }
 
-      if (t.includes('admit card') || t.includes('hall ticket') || t.includes('exam date')) aUl.innerHTML += html;
-      else if (t.includes('result') || t.includes('merit') || t.includes('answer key')) rUl.innerHTML += html;
-      else jUl.innerHTML += html;
+    function detectQual(title) {
+      const t = title.toLowerCase();
+      if (t.includes("10th")) return "10th Pass";
+      if (t.includes("12th") || t.includes("constable")) return "12th Pass";
+      if (t.includes("iti")) return "ITI";
+      if (t.includes("diploma")) return "Diploma";
+      if (t.includes("b.tech") || t.includes("engineer")) return "Engineering / B.Tech";
+      if (t.includes("nurse") || t.includes("aiims") || t.includes("medical")) return "Medical / Nursing";
+      return "Graduate / Check Notification";
+    }
+
+    async function loadSiteData() {
+      try {
+        const res = await fetch("./jobs.json?v=" + Date.now());
+        allPosts = await res.json();
+        populateSections(allPosts);
+
+        // Open specific post if ?post=slug is in URL
+        const params = new URLSearchParams(window.location.search);
+        const postSlug = params.get("post");
+        if (postSlug) {
+          const foundIdx = allPosts.findIndex((p, idx) => (p.slug || String(idx)) === postSlug);
+          if (foundIdx !== -1) openPostPage(null, foundIdx);
+        }
+      } catch (err) {
+        document.getElementById("latestJobsTableBody").innerHTML =
+          '<tr><td colspan="5" style="text-align:center; padding:20px;">Please run GitHub Action workflow to populate live updates.</td></tr>';
+      }
+    }
+
+    function populateSections(posts) {
+      const jobs = [];
+      const admits = [];
+      const results = [];
+      const keys = [];
+      const updates = [];
+
+      posts.forEach((p, index) => {
+        const item = { ...p, idx: index, slug: p.slug || String(index) };
+        const t = item.title.toLowerCase();
+
+        if (t.includes("admit card") || t.includes("hall ticket") || t.includes("call letter")) {
+          admits.push(item);
+        } else if (t.includes("result") || t.includes("merit list") || t.includes("scorecard")) {
+          results.push(item);
+        } else if (t.includes("answer key") || t.includes("response sheet")) {
+          keys.push(item);
+        } else {
+          jobs.push(item);
+        }
+        updates.push(item);
+      });
+
+      // Update Category Counts
+      document.getElementById("cnt-jobs").innerText = jobs.length;
+      document.getElementById("cnt-admit").innerText = admits.length;
+      document.getElementById("cnt-results").innerText = results.length;
+      document.getElementById("cnt-keys").innerText = keys.length;
+      document.getElementById("cnt-syllabus").innerText = posts.filter(x => x.title.toLowerCase().includes("syllabus")).length;
+      document.getElementById("cnt-admission").innerText = posts.filter(x => x.title.toLowerCase().includes("admission")).length;
+      document.getElementById("cnt-state").innerText = posts.filter(x => x.title.toLowerCase().includes("police") || x.title.toLowerCase().includes("state")).length;
+      document.getElementById("cnt-updates").innerText = updates.length;
+
+      // 1. Populate Ticker
+      const tickerItems = posts.slice(0, 12).map(p => {
+        const idx = allPosts.indexOf(p);
+        const slug = p.slug || String(idx);
+        return `<a class="ticker__item" href="?post=${slug}" onclick="openPostPage(event, ${idx})">${p.title}</a>`;
+      }).join("");
+      if (tickerItems) {
+        document.getElementById("dynamicTickerTrack").innerHTML = tickerItems + tickerItems;
+      }
+
+      // 2. Populate Latest Jobs Table
+      const jobsBody = document.getElementById("latestJobsTableBody");
+      jobsBody.innerHTML = jobs.length === 0
+        ? '<tr><td colspan="5" style="text-align:center; padding:20px;">No jobs found matching filter.</td></tr>'
+        : jobs.map(j => {
+            const dept = detectDept(j.title);
+            const qual = detectQual(j.title);
+            const dateStr = new Date(j.pubDate).toLocaleDateString("en-IN");
+            return `
+              <tr>
+                <td data-label="Job">
+                  <a class="rowlink" href="?post=${j.slug}" onclick="openPostPage(event, ${j.idx})">${j.title}</a>
+                  <div class="rowmeta">
+                    <span class="badge">India</span>
+                    <span class="badge badge--cat">${qual}</span>
+                  </div>
+                </td>
+                <td class="hide-sm" data-label="Department">${dept}</td>
+                <td class="hide-sm" data-label="Qualification">${qual}</td>
+                <td data-label="Updated">${dateStr}</td>
+                <td data-label="Action">
+                  <a class="btn-mini" href="?post=${j.slug}" onclick="openPostPage(event, ${j.idx})">View</a>
+                </td>
+              </tr>
+            `;
+          }).join("");
+
+      // 3. Populate Admit Cards Grid
+      const admitGrid = document.getElementById("admitCardsGrid");
+      admitGrid.innerHTML = (admits.length ? admits : jobs.slice(0, 6)).slice(0, 6).map(a => {
+        const dept = detectDept(a.title);
+        const dateStr = new Date(a.pubDate).toLocaleDateString("en-IN");
+        return `
+          <article class="jobcard">
+            <span class="jobcard__tag">${dept}</span>
+            <h3 class="jobcard__title"><a href="?post=${a.slug}" onclick="openPostPage(event, ${a.idx})">${a.title}</a></h3>
+            <ul class="jobcard__meta">
+              <li><i class="fa-solid fa-calendar-day"></i> Updated: ${dateStr}</li>
+            </ul>
+            <div class="jobcard__actions">
+              <a class="btn btn--primary btn--sm" href="?post=${a.slug}" onclick="openPostPage(event, ${a.idx})">
+                <i class="fa-solid fa-download"></i> View Details
+              </a>
+              <button type="button" class="btn btn--ghost btn--sm" onclick="shareSpecificPost('${a.slug}', '${a.title.replace(/'/g, "")}')">
+                <i class="fa-brands fa-whatsapp"></i>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      // 4. Populate Results Grid
+      const resultsGrid = document.getElementById("resultsGrid");
+      resultsGrid.innerHTML = (results.length ? results : jobs.slice(6, 12)).slice(0, 6).map(r => {
+        const dept = detectDept(r.title);
+        const dateStr = new Date(r.pubDate).toLocaleDateString("en-IN");
+        return `
+          <article class="jobcard">
+            <span class="jobcard__tag">${dept}</span>
+            <h3 class="jobcard__title"><a href="?post=${r.slug}" onclick="openPostPage(event, ${r.idx})">${r.title}</a></h3>
+            <ul class="jobcard__meta">
+              <li><i class="fa-solid fa-calendar-check"></i> Published: ${dateStr}</li>
+            </ul>
+            <div class="jobcard__actions">
+              <a class="btn btn--primary btn--sm" href="?post=${r.slug}" onclick="openPostPage(event, ${r.idx})">
+                <i class="fa-solid fa-file-lines"></i> Check Result
+              </a>
+              <button type="button" class="btn btn--ghost btn--sm" onclick="shareSpecificPost('${r.slug}', '${r.title.replace(/'/g, "")}')">
+                <i class="fa-brands fa-whatsapp"></i>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      // 5. Populate Answer Keys Table
+      const keysBody = document.getElementById("answerKeysTableBody");
+      keysBody.innerHTML = (keys.length ? keys : jobs.slice(0, 4)).slice(0, 6).map(k => {
+        const dept = detectDept(k.title);
+        const dateStr = new Date(k.pubDate).toLocaleDateString("en-IN");
+        return `
+          <tr>
+            <td data-label="Examination"><a class="rowlink" href="?post=${k.slug}" onclick="openPostPage(event, ${k.idx})">${k.title}</a></td>
+            <td class="hide-sm" data-label="Body">${dept}</td>
+            <td class="hide-sm" data-label="Date">${dateStr}</td>
+            <td data-label="Answer Key"><a class="btn-mini" href="?post=${k.slug}" onclick="openPostPage(event, ${k.idx})"><i class="fa-solid fa-download"></i> View</a></td>
+          </tr>
+        `;
+      }).join("");
+
+      // 6. Populate Important Updates List
+      const updatesList = document.getElementById("importantUpdatesList");
+      updatesList.innerHTML = updates.slice(0, 8).map(u => {
+        const dept = detectDept(u.title);
+        const dateStr = new Date(u.pubDate).toLocaleDateString("en-IN");
+        return `
+          <li class="update-item">
+            <span class="update-item__icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+            <div>
+              <a class="update-item__title" href="?post=${u.slug}" onclick="openPostPage(event, ${u.idx})">${u.title}</a>
+              <p class="update-item__meta">${dept} • Published ${dateStr}</p>
+            </div>
+          </li>
+        `;
+      }).join("");
+    }
+
+    // Open Single Post Page Inside Your Website
+    function openPostPage(event, index) {
+      if (event) event.preventDefault();
+      const post = allPosts[index];
+      if (!post) return;
+
+      const slug = post.slug || String(index);
+      const ourFullUrl = `${baseSiteUrl}?post=${slug}`;
+      window.history.pushState({ index }, post.title, ourFullUrl);
+      document.title = `${post.title} – FAB5HOST`;
+
+      document.getElementById("singlePostTitle").innerText = post.title;
+      document.getElementById("singlePostUrl").innerText = `Direct Link: ${ourFullUrl}`;
+      document.getElementById("singlePostBody").innerHTML = post.content || post.description || `<p>${post.title}</p>`;
+
+      document.getElementById("homeMainContent").style.display = "none";
+      document.getElementById("singlePostSection").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showHome(event) {
+      if (event) event.preventDefault();
+      window.history.pushState({}, "FAB5HOST", baseSiteUrl);
+      document.title = "FAB5HOST – Government Jobs, Results & Admit Cards";
+      document.getElementById("singlePostSection").style.display = "none";
+      document.getElementById("homeMainContent").style.display = "block";
+    }
+
+    function handleSearchSubmit(event, inputId) {
+      event.preventDefault();
+      mobileMenu.classList.remove("is-open");
+      const query = document.getElementById(inputId).value.trim().toLowerCase();
+      quickFilter(query);
+      const sec = document.getElementById("sec-latest-jobs");
+      if (sec) sec.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function quickFilter(keyword) {
+      showHome();
+      const k = keyword.toLowerCase();
+      if (!k) {
+        populateSections(allPosts);
+        return;
+      }
+      const filtered = allPosts.filter(p => p.title.toLowerCase().includes(k));
+      populateSections(filtered);
+    }
+
+    function shareCurrentPage(platform) {
+      const url = encodeURIComponent(window.location.href);
+      const title = encodeURIComponent(document.title);
+      if (platform === "whatsapp") {
+        window.open(`https://api.whatsapp.com/send?text=${title}%20-%20${url}`, "_blank");
+      } else {
+        window.open(`https://t.me/share/url?url=${url}&text=${title}`, "_blank");
+      }
+    }
+
+    function shareSpecificPost(slug, title) {
+      const url = encodeURIComponent(`${baseSiteUrl}?post=${slug}`);
+      const text = encodeURIComponent(`${title} – Check Details on FAB5HOST: `);
+      window.open(`https://api.whatsapp.com/send?text=${text}${url}`, "_blank");
+    }
+
+    window.addEventListener("popstate", () => {
+      const params = new URLSearchParams(window.location.search);
+      const postSlug = params.get("post");
+      if (postSlug) {
+        const foundIdx = allPosts.findIndex((p, idx) => (p.slug || String(idx)) === postSlug);
+        if (foundIdx !== -1) openPostPage(null, foundIdx);
+      } else {
+        showHome();
+      }
     });
 
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('job') && allJobs[params.get('job')]) openJob(params.get('job'));
-  }
-
-  function openJob(i) {
-    const job = allJobs[i];
-    if (!job) return;
-    const url = window.location.origin + window.location.pathname + '?job=' + i;
-    history.pushState({}, job.title, url);
-    document.getElementById('dTitle').innerText = job.title;
-    document.getElementById('dLinkShow').innerText = 'Direct Link: ' + url;
-    document.getElementById('dBody').innerHTML = job.description || job.title;
-    document.getElementById('dApply').href = job.link;
-    document.getElementById('homeGrid').style.display = 'none';
-    document.getElementById('detail-box').style.display = 'block';
-    window.scrollTo(0, 0);
-  }
-
-  function showHome() {
-    history.pushState({}, 'Home', window.location.origin + window.location.pathname);
-    document.getElementById('detail-box').style.display = 'none';
-    document.getElementById('homeGrid').style.display = 'grid';
-  }
-
-  function searchJobs() {
-    showHome();
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.j-item').forEach(el => {
-      el.style.display = el.getAttribute('data-t').includes(q) ? 'block' : 'none';
-    });
-  }
-
-  function filterTab(cat, btn) {
-    showHome();
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('boxJobs').style.display = (cat === 'ALL' || cat === 'JOBS') ? 'block' : 'none';
-    document.getElementById('boxAdmit').style.display = (cat === 'ALL' || cat === 'ADMIT') ? 'block' : 'none';
-    document.getElementById('boxResult').style.display = (cat === 'ALL' || cat === 'RESULT') ? 'block' : 'none';
-  }
-
-  function shareWA() {
-    const msg = document.getElementById('dTitle').innerText + '\n' + window.location.href;
-    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
-  }
-
-  init();
-</script>
+    loadSiteData();
+  </script>
 </body>
-</html>
+</html>               
