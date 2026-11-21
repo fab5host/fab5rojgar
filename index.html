@@ -13,7 +13,6 @@
   <style>
     :root {
       --navy: #0B1F3A;
-      --navy-light: #162E52;
       --teal: #0D6E6E;
       --saffron: #D96B27;
       --bg: #F1F5F9;
@@ -23,12 +22,7 @@
       --border: #E2E8F0;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg);
@@ -37,670 +31,182 @@
       overflow-x: hidden;
     }
 
-    /* Strict Icon Size Control (Logos bade nahi honge) */
-    i.fa-solid, i.fa-brands, svg {
+    i.fa-solid, i.fa-brands, i.fa-regular, svg {
       font-size: inherit;
-      width: auto;
-      height: auto;
-      max-width: 24px;
-      max-height: 24px;
+      max-width: 22px;
+      max-height: 22px;
       vertical-align: middle;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 
     /* TOPBAR */
-    .topbar {
-      background: #061224;
-      color: #CBD5E1;
-      font-size: 12px;
-      padding: 7px 0;
-    }
-    .topbar__inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .topbar__links {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .topbar__links a {
-      color: #CBD5E1;
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .topbar { background: #061224; color: #CBD5E1; font-size: 12px; padding: 7px 0; }
+    .topbar__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .topbar__links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .topbar__links a { color: #CBD5E1; text-decoration: none; font-weight: 500; cursor: pointer; }
     .topbar__links a:hover { color: #FBBF24; }
-    .topbar__right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .share-mini-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .topbar__right { display: flex; align-items: center; gap: 12px; }
+    .share-mini-group { display: flex; align-items: center; gap: 6px; }
     .share-mini-btn {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      width: 26px; height: 26px; border-radius: 50%; border: none;
+      background: rgba(255,255,255,0.12); color: #fff; font-size: 13px;
+      display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .share-mini-btn:hover { background: var(--saffron); }
 
-    /* HEADER & NAVBAR */
+    /* HEADER */
     .site-header {
-      background: var(--navy);
-      color: #fff;
-      border-bottom: 4px solid var(--saffron);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      background: var(--navy); color: #fff; border-bottom: 4px solid var(--saffron);
+      position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      gap: 15px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #fff;
-    }
+    .header-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 15px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; cursor: pointer; }
     .brand__mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
+      width: 38px; height: 38px; border-radius: 8px;
       background: linear-gradient(135deg, var(--saffron), #F59E0B);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #fff;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; flex-shrink: 0;
     }
-    .brand__name {
-      font-family: 'Poppins', sans-serif;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.1;
-      display: block;
-    }
+    .brand__name { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; line-height: 1.1; display: block; }
     .brand__name span { color: #FBBF24; }
-    .brand__tag {
-      font-size: 11px;
-      color: #CBD5E1;
-      display: block;
-    }
+    .brand__tag { font-size: 11px; color: #CBD5E1; display: block; }
 
-    .mainnav {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .mainnav a {
-      color: #F8FAFC;
-      text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: 0.2s;
-    }
+    .mainnav { display: flex; align-items: center; gap: 6px; }
+    .mainnav a { color: #F8FAFC; text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
     .mainnav a:hover { background: rgba(255,255,255,0.12); }
 
-    .header-search {
-      display: flex;
-      background: #fff;
-      border-radius: 6px;
-      overflow: hidden;
-      width: 220px;
-    }
-    .header-search input {
-      border: none;
-      padding: 7px 10px;
-      font-size: 13px;
-      width: 100%;
-      outline: none;
-      color: #0F172A;
-    }
-    .header-search button {
-      background: var(--saffron);
-      border: none;
-      color: #fff;
-      padding: 0 12px;
-      cursor: pointer;
-      font-size: 13px;
-    }
+    .header-search { display: flex; background: #fff; border-radius: 6px; overflow: hidden; width: 220px; }
+    .header-search input { border: none; padding: 7px 10px; font-size: 13px; width: 100%; outline: none; color: #0F172A; }
+    .header-search button { background: var(--saffron); border: none; color: #fff; padding: 0 12px; cursor: pointer; font-size: 13px; }
 
     .menu-toggle {
-      display: none;
-      background: rgba(255,255,255,0.12);
-      border: none;
-      color: #fff;
-      width: 38px;
-      height: 38px;
-      border-radius: 6px;
-      font-size: 18px;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
+      display: none; background: rgba(255,255,255,0.12); border: none; color: #fff;
+      width: 38px; height: 38px; border-radius: 6px; font-size: 18px; cursor: pointer; align-items: center; justify-content: center;
     }
-
     @media (max-width: 960px) {
       .mainnav, .header-search { display: none; }
       .menu-toggle { display: inline-flex; }
     }
 
-    /* MOBILE DRAWER */
-    .mobilemenu {
-      display: none;
-      background: #0F172A;
-      border-top: 1px solid #1E293B;
-      padding: 15px;
-    }
+    .mobilemenu { display: none; background: #0F172A; border-top: 1px solid #1E293B; padding: 15px; }
     .mobilemenu.is-open { display: block; }
-    .mobilemenu a {
-      display: block;
-      color: #F8FAFC;
-      text-decoration: none;
-      padding: 10px 12px;
-      font-weight: 600;
-      border-bottom: 1px solid #1E293B;
-      font-size: 14px;
-    }
+    .mobilemenu a { display: block; color: #F8FAFC; text-decoration: none; padding: 10px 12px; font-weight: 600; border-bottom: 1px solid #1E293B; font-size: 14px; }
 
     /* TICKER */
-    .ticker {
-      background: #FEF3C7;
-      border-bottom: 1px solid #FDE68A;
-      padding: 8px 0;
-      font-size: 13px;
-    }
-    .ticker__inner {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .ticker__label {
-      background: #B91C1C;
-      color: #fff;
-      font-weight: 700;
-      font-size: 11px;
-      padding: 3px 9px;
-      border-radius: 4px;
-      white-space: nowrap;
-      text-transform: uppercase;
-    }
-    .ticker marquee a {
-      color: #78350F;
-      font-weight: 700;
-      text-decoration: none;
-      margin-right: 25px;
-    }
-    .ticker marquee a:hover { text-decoration: underline; }
+    .ticker { background: #FEF3C7; border-bottom: 1px solid #FDE68A; padding: 8px 0; font-size: 13px; }
+    .ticker__inner { display: flex; align-items: center; gap: 10px; }
+    .ticker__label { background: #B91C1C; color: #fff; font-weight: 700; font-size: 11px; padding: 3px 9px; border-radius: 4px; white-space: nowrap; text-transform: uppercase; }
+    .ticker marquee a { color: #78350F; font-weight: 700; text-decoration: none; margin-right: 25px; cursor: pointer; }
 
     /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, #1E3A8A 100%);
-      color: #fff;
-      padding: 36px 0;
-    }
-    .hero__inner {
-      max-width: 820px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .hero__title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-    .hero__text {
-      color: #CBD5E1;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    .hero__search {
-      display: flex;
-      max-width: 600px;
-      margin: 0 auto 16px auto;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-    }
-    .hero__search input {
-      flex: 1;
-      border: none;
-      padding: 13px 16px;
-      font-size: 14px;
-      outline: none;
-      color: #0F172A;
-    }
-    .hero__search button {
-      background: var(--saffron);
-      color: #fff;
-      border: none;
-      padding: 0 22px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .chips {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .chip {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 5px 13px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-    }
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, #1E3A8A 100%); color: #fff; padding: 34px 0; }
+    .hero__inner { max-width: 820px; margin: 0 auto; text-align: center; }
+    .hero__title { font-family: 'Poppins', sans-serif; font-size: clamp(1.45rem, 3.5vw, 2.15rem); font-weight: 800; margin-bottom: 10px; }
+    .hero__text { color: #CBD5E1; font-size: 14px; margin-bottom: 20px; }
+    .hero__search { display: flex; max-width: 600px; margin: 0 auto 16px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+    .hero__search input { flex: 1; border: none; padding: 13px 16px; font-size: 14px; outline: none; color: #0F172A; }
+    .hero__search button { background: var(--saffron); color: #fff; border: none; padding: 0 22px; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    .chip { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; }
     .chip:hover { background: var(--saffron); border-color: var(--saffron); }
 
-    /* SECTIONS & HEADINGS */
-    .section {
-      padding: 32px 0;
-    }
-    .section--alt {
-      background: #E2E8F0/40;
-    }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      border-left: 4px solid var(--saffron);
-      padding-left: 12px;
-    }
-    .section-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 19px;
-      font-weight: 700;
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-link {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--teal);
-      text-decoration: none;
-      cursor: pointer;
-    }
+    /* SECTIONS & CARDS */
+    .section { padding: 30px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-left: 4px solid var(--saffron); padding-left: 12px; }
+    .section-title { font-family: 'Poppins', sans-serif; font-size: 19px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+    .section-link { font-size: 13px; font-weight: 700; color: var(--teal); text-decoration: none; cursor: pointer; }
 
-    /* CATEGORY MINI CARDS */
-    .catgrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
-    }
+    .catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
     .catbox {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      transition: 0.2s;
-      cursor: pointer;
+      background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+      display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: 0.2s; cursor: pointer;
     }
-    .catbox:hover {
-      border-color: var(--teal);
-      transform: translateY(-2px);
-    }
-    .catbox__icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: #EFF6FF;
-      color: #1D4ED8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      flex-shrink: 0;
-    }
-    .catbox__title {
-      font-weight: 700;
-      font-size: 14px;
-      display: block;
-    }
-    .catbox__desc {
-      font-size: 11.5px;
-      color: var(--muted);
-      display: block;
-    }
-    .catbox__count {
-      margin-left: auto;
-      background: #ECFDF5;
-      color: #047857;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 12px;
-      white-space: nowrap;
-    }
+    .catbox:hover { border-color: var(--teal); transform: translateY(-2px); }
+    .catbox__icon { width: 40px; height: 40px; border-radius: 8px; background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .catbox__title { font-weight: 700; font-size: 14px; display: block; }
+    .catbox__desc { font-size: 11.5px; color: var(--muted); display: block; }
+    .catbox__count { margin-left: auto; background: #ECFDF5; color: #047857; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
 
-    /* CHHOTE-CHHOTE JOB RECRUITMENT DIV CARDS */
-    .cardgrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 16px;
-    }
+    .cardgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 16px; }
     .jobcard {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
-      transition: 0.2s;
+      background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04); transition: 0.2s;
     }
-    .jobcard:hover {
-      border-color: var(--navy);
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
-    }
-    .jobcard__top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .jobcard__tag {
-      background: #EFF6FF;
-      color: #1E40AF;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-    }
-    .jobcard__qual {
-      background: #FEF3C7;
-      color: #92400E;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-    }
-    .jobcard__title {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.4;
-      margin-bottom: 10px;
-    }
-    .jobcard__title a {
-      color: var(--text);
-      text-decoration: none;
-      cursor: pointer;
-    }
+    .jobcard:hover { border-color: var(--navy); box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08); }
+    .jobcard__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .jobcard__tag { background: #EFF6FF; color: #1E40AF; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .jobcard__qual { background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .jobcard__title { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+    .jobcard__title a { color: var(--text); text-decoration: none; cursor: pointer; }
     .jobcard__title a:hover { color: var(--teal); }
-    .jobcard__meta {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .jobcard__actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding-top: 10px;
-      border-top: 1px solid #F1F5F9;
-    }
+    .jobcard__meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .jobcard__actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid #F1F5F9; }
     .btn-view {
-      background: var(--navy);
-      color: #fff;
-      text-decoration: none;
-      font-size: 12.5px;
-      font-weight: 700;
-      padding: 7px 14px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
+      background: var(--navy); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 700;
+      padding: 7px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
     }
     .btn-view:hover { background: var(--saffron); }
     .btn-wa-card {
-      background: #DCFCE7;
-      color: #15803D;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      font-size: 15px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      background: #DCFCE7; color: #15803D; border: none; width: 32px; height: 32px; border-radius: 6px;
+      font-size: 15px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .btn-wa-card:hover { background: #16A34A; color: #fff; }
 
-    /* ON-SITE FULL POST VIEW */
-    #singlePostSection {
-      display: none;
-      padding: 25px 0 45px 0;
-    }
-    .post-shell {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 22px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    }
-    .post-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding-bottom: 14px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .btn-back {
-      background: var(--navy);
-      color: #fff;
-      border: none;
-      padding: 9px 15px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .post-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.25rem, 3vw, 1.75rem);
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 12px;
-    }
-    .post-url-strip {
-      background: #EFF6FF;
-      border-left: 4px solid #2563EB;
-      padding: 9px 12px;
-      border-radius: 6px;
-      font-size: 12.5px;
-      color: #1E3A8A;
-      font-weight: 600;
-      word-break: break-all;
-      margin-bottom: 18px;
-    }
-    .post-body {
-      font-size: 14.5px;
-      line-height: 1.7;
-      overflow-x: auto;
-    }
-    .post-body h1, .post-body h2, .post-body h3, .post-body h4 {
-      background: var(--navy);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 15.5px;
-      margin: 20px 0 10px 0;
-      text-align: center;
-    }
-    .post-body table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 14px 0;
-      background: #fff;
-    }
-    .post-body th, .post-body td {
-      border: 1px solid #CBD5E1;
-      padding: 10px;
-      text-align: left;
-      font-size: 13.5px;
-    }
+    /* DEDICATED ON-SITE PAGE VIEW */
+    #singlePostSection { display: none; padding: 25px 0 45px 0; }
+    .post-shell { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .post-topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .btn-back { background: var(--navy); color: #fff; border: none; padding: 9px 15px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .post-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    .post-url-strip { background: #EFF6FF; border-left: 4px solid #2563EB; padding: 9px 12px; border-radius: 6px; font-size: 12.5px; color: #1E3A8A; font-weight: 600; word-break: break-all; margin-bottom: 18px; }
+    .fab-summary-box { background: #F0FDF4; border: 1px solid #BBF7D0; color: #14532D; padding: 14px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; }
+    .post-body { font-size: 14.5px; line-height: 1.7; overflow-x: auto; }
+    .post-body h1, .post-body h2, .post-body h3, .post-body h4 { background: var(--navy); color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 15.5px; margin: 20px 0 10px 0; text-align: center; }
+    .post-body table { width: 100%; border-collapse: collapse; margin: 14px 0; background: #fff; }
+    .post-body th, .post-body td { border: 1px solid #CBD5E1; padding: 10px; text-align: left; font-size: 13.5px; }
     .post-body tr:nth-child(even) { background: #F8FAFC; }
     .post-body ul, .post-body ol { padding-left: 20px; margin: 10px 0; }
-    .official-table-link {
-      display: inline-block;
-      background: var(--saffron);
-      color: #fff !important;
-      padding: 6px 14px;
-      border-radius: 6px;
-      text-decoration: none !important;
-      font-weight: 700;
-      font-size: 13px;
-    }
+    .official-table-link { display: inline-block; background: var(--saffron); color: #fff !important; padding: 6px 14px; border-radius: 6px; text-decoration: none !important; font-weight: 700; font-size: 13px; }
+    .related-box { margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--border); }
 
     /* FOOTER */
-    .site-footer {
-      background: #061224;
-      color: #CBD5E1;
-      padding: 40px 0 20px 0;
-      border-top: 4px solid var(--teal);
-      margin-top: 30px;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 28px;
-      margin-bottom: 28px;
-    }
-    .footer-heading {
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .footer-about {
-      font-size: 13px;
-      color: #94A3B8;
-      line-height: 1.6;
-      margin-top: 10px;
-    }
-    .footer-links {
-      list-style: none;
-    }
+    .site-footer { background: #061224; color: #CBD5E1; padding: 40px 0 20px 0; border-top: 4px solid var(--teal); margin-top: 30px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; margin-bottom: 28px; }
+    .footer-heading { color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+    .footer-about { font-size: 13px; color: #94A3B8; line-height: 1.6; margin-top: 10px; }
+    .footer-links { list-style: none; }
     .footer-links li { margin-bottom: 8px; }
-    .footer-links a {
-      color: #94A3B8;
-      text-decoration: none;
-      font-size: 13px;
-    }
+    .footer-links a { color: #94A3B8; text-decoration: none; font-size: 13px; cursor: pointer; }
     .footer-links a:hover { color: #FBBF24; }
-    .footer-share {
-      display: flex;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .social-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 1px solid #334155;
-      background: #0F172A;
-      color: #fff;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
+    .footer-share { display: flex; gap: 10px; margin-top: 14px; }
+    .social-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #334155; background: #0F172A; color: #fff; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
     .social-btn:hover { background: var(--saffron); border-color: var(--saffron); }
-    .footer-bottom {
-      border-top: 1px solid #1E293B;
-      padding-top: 16px;
-      text-align: center;
-      font-size: 12px;
-      color: #64748B;
-    }
+    .footer-bottom { border-top: 1px solid #1E293B; padding-top: 16px; text-align: center; font-size: 12px; color: #64748B; }
   </style>
 </head>
 <body>
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="container topbar__inner">
       <div class="topbar__links">
-        <a href="#sec-latest-jobs" onclick="quickFilter('Admission')">Admission</a>
-        <a href="#sec-latest-jobs" onclick="quickFilter('Police')">State &amp; Police Jobs</a>
-        <a href="#sec-updates">Important Notices</a>
-        <a href="#footerAbout">Disclaimer</a>
+        <a onclick="quickFilter('Admission')">Admission</a>
+        <a onclick="quickFilter('Police')">State &amp; Police Jobs</a>
+        <a href="#footerAbout">About &amp; Disclaimer</a>
       </div>
       <div class="topbar__right">
         <span id="topbarDate"></span>
         <div class="share-mini-group">
-          <button type="button" class="share-mini-btn" onclick="shareCurrentPage('whatsapp')" aria-label="Share on WhatsApp">
-            <i class="fa-brands fa-whatsapp"></i>
-          </button>
-          <button type="button" class="share-mini-btn" onclick="shareCurrentPage('telegram')" aria-label="Share on Telegram">
-            <i class="fa-brands fa-telegram"></i>
-          </button>
+          <button type="button" class="share-mini-btn" onclick="shareCurrentPage('whatsapp')" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+          <button type="button" class="share-mini-btn" onclick="shareCurrentPage('telegram')" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- HEADER -->
   <header class="site-header">
     <div class="container header-bar">
-      <a class="brand" href="#" onclick="showHome(event)">
+      <a class="brand" href="./" onclick="showHome(event)">
         <span class="brand__mark"><i class="fa-solid fa-landmark"></i></span>
         <span>
           <span class="brand__name">FAB5<span>HOST</span></span>
@@ -709,7 +215,7 @@
       </a>
 
       <nav class="mainnav">
-        <a href="#" onclick="showHome(event)">Home</a>
+        <a href="./" onclick="showHome(event)">Home</a>
         <a href="#sec-latest-jobs" onclick="showHome()">Latest Jobs</a>
         <a href="#sec-admit-cards" onclick="showHome()">Admit Card</a>
         <a href="#sec-results" onclick="showHome()">Results</a>
@@ -721,13 +227,11 @@
         <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
     </div>
 
     <div class="mobilemenu" id="mobileMenu">
-      <a href="#" onclick="closeMobileAndGo('home')">Home</a>
+      <a href="./" onclick="closeMobileAndGo('home')">Home</a>
       <a href="#sec-latest-jobs" onclick="closeMobileAndGo('sec-latest-jobs')">Latest Jobs</a>
       <a href="#sec-admit-cards" onclick="closeMobileAndGo('sec-admit-cards')">Admit Card</a>
       <a href="#sec-results" onclick="closeMobileAndGo('sec-results')">Results</a>
@@ -735,41 +239,42 @@
     </div>
   </header>
 
-  <!-- TICKER -->
   <div class="ticker">
     <div class="container ticker__inner">
       <span class="ticker__label"><i class="fa-solid fa-bolt"></i> Latest</span>
-      <marquee behavior="scroll" direction="left" id="dynamicTicker">
-        Loading latest government recruitment updates...
-      </marquee>
+      <marquee behavior="scroll" direction="left" id="dynamicTicker">Loading latest recruitment updates...</marquee>
     </div>
   </div>
 
-  <!-- ON-SITE FULL POST PAGE (Opens when any card is clicked) -->
+  <!-- ON-SITE FULL POST PAGE (100% FAB5HOST URL & Content) -->
   <section id="singlePostSection">
     <div class="container">
       <div class="post-shell">
         <div class="post-topbar">
           <button type="button" class="btn-back" onclick="showHome(event)">
-            <i class="fa-solid fa-arrow-left"></i> Back to All Updates
+            <i class="fa-solid fa-arrow-left"></i> Back to Home
           </button>
           <div class="share-mini-group">
-            <button type="button" class="social-btn" onclick="shareCurrentPage('whatsapp')" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('telegram')" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('facebook')" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('x')" aria-label="X"><i class="fa-brands fa-x-twitter"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('whatsapp')"><i class="fa-brands fa-whatsapp"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('telegram')"><i class="fa-brands fa-telegram"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('facebook')"><i class="fa-brands fa-facebook-f"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('x')"><i class="fa-brands fa-x-twitter"></i></button>
           </div>
         </div>
-        <h1 class="post-title" id="singlePostTitle">Loading...</h1>
+        <h1 class="post-title" id="singlePostTitle"></h1>
         <div class="post-url-strip" id="singlePostUrl"></div>
         <div class="post-body" id="singlePostBody"></div>
+
+        <div class="related-box">
+          <h3 class="section-title" style="margin-bottom:14px;"><i class="fa-solid fa-layer-group"></i> More Latest Updates on FAB5HOST</h3>
+          <div class="cardgrid" id="relatedPostsGrid"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- HOMEPAGE CONTENT -->
+  <!-- HOMEPAGE -->
   <main id="homeMainContent">
-    <!-- HERO -->
     <section class="hero">
       <div class="container hero__inner">
         <h1 class="hero__title">Government Jobs, Results &amp; Admit Cards – All in One Place</h1>
@@ -790,7 +295,6 @@
       </div>
     </section>
 
-    <!-- CATEGORY CARDS -->
     <section class="section">
       <div class="container">
         <div class="section-head">
@@ -821,73 +325,58 @@
       </div>
     </section>
 
-    <!-- LATEST GOVERNMENT JOBS (CHHOTE-CHHOTE DIV CARDS) -->
     <section class="section" id="sec-latest-jobs">
       <div class="container">
         <div class="section-head">
           <h2 class="section-title"><i class="fa-solid fa-briefcase"></i> Latest Government Jobs</h2>
           <a class="section-link" onclick="quickFilter('')">Reset Filter</a>
         </div>
-        <div class="cardgrid" id="latestJobsGrid">
-          <p>Loading latest job cards...</p>
-        </div>
+        <div class="cardgrid" id="latestJobsGrid"><p>Loading latest job cards...</p></div>
       </div>
     </section>
 
-    <!-- ADMIT CARDS -->
     <section class="section" id="sec-admit-cards">
       <div class="container">
         <div class="section-head">
           <h2 class="section-title"><i class="fa-solid fa-id-card"></i> Admit Cards</h2>
         </div>
-        <div class="cardgrid" id="admitCardsGrid">
-          <p>Loading admit cards...</p>
-        </div>
+        <div class="cardgrid" id="admitCardsGrid"><p>Loading admit cards...</p></div>
       </div>
     </section>
 
-    <!-- LATEST RESULTS -->
     <section class="section" id="sec-results">
       <div class="container">
         <div class="section-head">
           <h2 class="section-title"><i class="fa-solid fa-square-poll-vertical"></i> Latest Results</h2>
         </div>
-        <div class="cardgrid" id="resultsGrid">
-          <p>Loading results...</p>
-        </div>
+        <div class="cardgrid" id="resultsGrid"><p>Loading results...</p></div>
       </div>
     </section>
 
-    <!-- ANSWER KEYS -->
     <section class="section" id="sec-answer-keys">
       <div class="container">
         <div class="section-head">
           <h2 class="section-title"><i class="fa-solid fa-key"></i> Answer Keys &amp; Important Updates</h2>
         </div>
-        <div class="cardgrid" id="answerKeysGrid">
-          <p>Loading answer keys...</p>
-        </div>
+        <div class="cardgrid" id="answerKeysGrid"><p>Loading answer keys...</p></div>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="site-footer" id="footerAbout">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <a class="brand" href="#" onclick="showHome(event)">
+          <a class="brand" href="./" onclick="showHome(event)">
             <span class="brand__mark"><i class="fa-solid fa-landmark"></i></span>
             <span class="brand__name">FAB5<span>HOST</span></span>
           </a>
-          <p class="footer-about">
-            Government Jobs, Results &amp; Admit Cards – All Updates in One Place. Daily recruitment updates compiled from official portals.
-          </p>
+          <p class="footer-about">Government Jobs, Results &amp; Admit Cards – All Updates in One Place.</p>
           <div class="footer-share">
-            <button type="button" class="social-btn" onclick="shareCurrentPage('whatsapp')" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('telegram')" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('facebook')" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
-            <button type="button" class="social-btn" onclick="shareCurrentPage('x')" aria-label="X"><i class="fa-brands fa-x-twitter"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('whatsapp')"><i class="fa-brands fa-whatsapp"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('telegram')"><i class="fa-brands fa-telegram"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('facebook')"><i class="fa-brands fa-facebook-f"></i></button>
+            <button type="button" class="social-btn" onclick="shareCurrentPage('x')"><i class="fa-brands fa-x-twitter"></i></button>
           </div>
         </div>
         <div>
@@ -910,14 +399,10 @@
         </div>
         <div>
           <h3 class="footer-heading">Disclaimer</h3>
-          <p class="footer-about">
-            FAB5HOST is an independent information portal and is not affiliated with any Government department. Always verify details from the official PDF before applying.
-          </p>
+          <p class="footer-about">FAB5HOST is an independent information portal and is not affiliated with any Government department. Verify details from official PDFs.</p>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© 2026 FAB5HOST. All rights reserved.</p>
-      </div>
+      <div class="footer-bottom"><p>© 2026 FAB5HOST. All rights reserved.</p></div>
     </div>
   </footer>
 
@@ -969,11 +454,30 @@
       return "Graduate / Any";
     }
 
+    function stripThirdPartyLinks(rawHtml) {
+      const temp = document.createElement("div");
+      temp.innerHTML = rawHtml || "";
+      temp.querySelectorAll("a").forEach(a => {
+        const href = (a.getAttribute("href") || "").toLowerCase();
+        const isOfficial = href.includes(".gov.in") || href.includes(".nic.in") || href.endsWith(".pdf") ||
+                           href.includes("ibps.in") || href.includes("sbi.co.in") || href.includes("ssc.gov.in") || href.includes("nta.ac.in");
+        if (!isOfficial) {
+          a.replaceWith(document.createTextNode(a.innerText));
+        } else {
+          a.className = "official-table-link";
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener noreferrer");
+        }
+      });
+      return temp.innerHTML.replace(/FreeJobAlert\.com|FreeJobAlert|SarkariResult\.com\.cm|Sarkari\s*Result/gi, "FAB5HOST");
+    }
+
     function buildCardHtml(item, btnLabel) {
       const dept = detectDept(item.title);
       const qual = detectQual(item.title);
       const dateStr = new Date(item.pubDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
       const safeTitle = item.title.replace(/'/g, "");
+      const postHref = `${baseSiteUrl}?post=${encodeURIComponent(item.slug)}`;
       return `
         <article class="jobcard">
           <div>
@@ -982,16 +486,16 @@
               <span class="jobcard__qual">${qual}</span>
             </div>
             <h3 class="jobcard__title">
-              <a href="?post=${item.slug}" onclick="openPostPage(event, ${item.idx})">${item.title}</a>
+              <a href="${postHref}" onclick="openPostPage(event, ${item.idx})">${item.title}</a>
             </h3>
           </div>
           <div>
             <div class="jobcard__meta">
               <span><i class="fa-regular fa-calendar"></i> ${dateStr}</span>
-              <span><i class="fa-solid fa-circle-check" style="color:#16A34A;"></i> Verified</span>
+              <span><i class="fa-solid fa-circle-check" style="color:#16A34A;"></i> FAB5HOST Verified</span>
             </div>
             <div class="jobcard__actions">
-              <a class="btn-view" href="?post=${item.slug}" onclick="openPostPage(event, ${item.idx})">
+              <a class="btn-view" href="${postHref}" onclick="openPostPage(event, ${item.idx})">
                 ${btnLabel} <i class="fa-solid fa-arrow-right"></i>
               </a>
               <button type="button" class="btn-wa-card" onclick="shareSpecificPost('${item.slug}', '${safeTitle}')" title="Share on WhatsApp">
@@ -1006,40 +510,35 @@
     async function loadSiteData() {
       try {
         const res = await fetch("./jobs.json?v=" + Date.now());
-        allPosts = await res.json();
+        const rawPosts = await res.json();
+        allPosts = rawPosts.map((p, idx) => ({
+          ...p,
+          idx,
+          slug: p.slug || p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 70) || String(idx)
+        }));
         populateSections(allPosts);
 
         const params = new URLSearchParams(window.location.search);
         const postSlug = params.get("post");
         if (postSlug) {
-          const foundIdx = allPosts.findIndex((p, idx) => (p.slug || String(idx)) === postSlug);
+          const foundIdx = allPosts.findIndex(p => p.slug === postSlug);
           if (foundIdx !== -1) openPostPage(null, foundIdx);
         }
       } catch (err) {
         document.getElementById("latestJobsGrid").innerHTML =
-          "<p>Please run GitHub Action workflow once to load live recruitment cards.</p>";
+          "<p>Run the GitHub Actions workflow once to generate all recruitment pages.</p>";
       }
     }
 
     function populateSections(posts) {
-      const jobs = [];
-      const admits = [];
-      const results = [];
-      const keys = [];
+      const jobs = [], admits = [], results = [], keys = [];
 
-      posts.forEach((p, index) => {
-        const item = { ...p, idx: index, slug: p.slug || String(index) };
+      posts.forEach(item => {
         const t = item.title.toLowerCase();
-
-        if (t.includes("admit card") || t.includes("hall ticket") || t.includes("call letter")) {
-          admits.push(item);
-        } else if (t.includes("result") || t.includes("merit list") || t.includes("scorecard")) {
-          results.push(item);
-        } else if (t.includes("answer key") || t.includes("response sheet")) {
-          keys.push(item);
-        } else {
-          jobs.push(item);
-        }
+        if (t.includes("admit card") || t.includes("hall ticket") || t.includes("call letter")) admits.push(item);
+        else if (t.includes("result") || t.includes("merit list") || t.includes("scorecard")) results.push(item);
+        else if (t.includes("answer key") || t.includes("response sheet")) keys.push(item);
+        else jobs.push(item);
       });
 
       document.getElementById("cnt-jobs").innerText = jobs.length;
@@ -1047,15 +546,11 @@
       document.getElementById("cnt-results").innerText = results.length;
       document.getElementById("cnt-keys").innerText = keys.length;
 
-      // Ticker
-      const tickerHtml = posts.slice(0, 12).map(p => {
-        const idx = allPosts.indexOf(p);
-        const slug = p.slug || String(idx);
-        return `<a href="?post=${slug}" onclick="openPostPage(event, ${idx})">• ${p.title}</a>`;
-      }).join("");
+      const tickerHtml = posts.slice(0, 12).map(p =>
+        `<a href="${baseSiteUrl}?post=${encodeURIComponent(p.slug)}" onclick="openPostPage(event, ${p.idx})">• ${p.title}</a>`
+      ).join("");
       if (tickerHtml) document.getElementById("dynamicTicker").innerHTML = tickerHtml;
 
-      // Render Chhote-Chhote Div Cards in all sections
       document.getElementById("latestJobsGrid").innerHTML = jobs.length
         ? jobs.map(j => buildCardHtml(j, "View Details")).join("")
         : "<p>No matching vacancies found.</p>";
@@ -1075,14 +570,19 @@
       const post = allPosts[index];
       if (!post) return;
 
-      const slug = post.slug || String(index);
-      const ourFullUrl = `${baseSiteUrl}?post=${slug}`;
+      const ourFullUrl = `${baseSiteUrl}?post=${encodeURIComponent(post.slug)}`;
       window.history.pushState({ index }, post.title, ourFullUrl);
       document.title = `${post.title} – FAB5HOST`;
 
       document.getElementById("singlePostTitle").innerText = post.title;
-      document.getElementById("singlePostUrl").innerText = `Direct Link: ${ourFullUrl}`;
-      document.getElementById("singlePostBody").innerHTML = post.content || post.description || `<p>${post.title}</p>`;
+      document.getElementById("singlePostUrl").innerText = `FAB5HOST Official Page URL: ${ourFullUrl}`;
+
+      const cleanBody = stripThirdPartyLinks(post.content || post.description || `<p>${post.title}</p>`);
+      document.getElementById("singlePostBody").innerHTML = cleanBody;
+
+      // Related posts from FAB5HOST
+      const related = allPosts.filter(p => p.idx !== index).slice(0, 3);
+      document.getElementById("relatedPostsGrid").innerHTML = related.map(r => buildCardHtml(r, "Read Update")).join("");
 
       document.getElementById("homeMainContent").style.display = "none";
       document.getElementById("singlePostSection").style.display = "block";
@@ -1100,8 +600,7 @@
     function handleSearchSubmit(event, inputId) {
       event.preventDefault();
       mobileMenu.classList.remove("is-open");
-      const query = document.getElementById(inputId).value.trim();
-      quickFilter(query);
+      quickFilter(document.getElementById(inputId).value.trim());
       const sec = document.getElementById("sec-latest-jobs");
       if (sec) sec.scrollIntoView({ behavior: "smooth" });
     }
@@ -1109,30 +608,21 @@
     function quickFilter(keyword) {
       showHome();
       const k = keyword.toLowerCase();
-      if (!k) {
-        populateSections(allPosts);
-        return;
-      }
-      const filtered = allPosts.filter(p => p.title.toLowerCase().includes(k));
-      populateSections(filtered);
+      if (!k) { populateSections(allPosts); return; }
+      populateSections(allPosts.filter(p => p.title.toLowerCase().includes(k)));
     }
 
     function shareCurrentPage(platform) {
       const url = encodeURIComponent(window.location.href);
       const title = encodeURIComponent(document.title);
-      if (platform === "whatsapp") {
-        window.open(`https://api.whatsapp.com/send?text=${title}%20-%20${url}`, "_blank");
-      } else if (platform === "telegram") {
-        window.open(`https://t.me/share/url?url=${url}&text=${title}`, "_blank");
-      } else if (platform === "facebook") {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank");
-      } else {
-        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, "_blank");
-      }
+      if (platform === "whatsapp") window.open(`https://api.whatsapp.com/send?text=${title}%20-%20${url}`, "_blank");
+      else if (platform === "telegram") window.open(`https://t.me/share/url?url=${url}&text=${title}`, "_blank");
+      else if (platform === "facebook") window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank");
+      else window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, "_blank");
     }
 
     function shareSpecificPost(slug, title) {
-      const url = encodeURIComponent(`${baseSiteUrl}?post=${slug}`);
+      const url = encodeURIComponent(`${baseSiteUrl}?post=${encodeURIComponent(slug)}`);
       const text = encodeURIComponent(`${title} – Check Details on FAB5HOST: `);
       window.open(`https://api.whatsapp.com/send?text=${text}${url}`, "_blank");
     }
@@ -1141,7 +631,7 @@
       const params = new URLSearchParams(window.location.search);
       const postSlug = params.get("post");
       if (postSlug) {
-        const foundIdx = allPosts.findIndex((p, idx) => (p.slug || String(idx)) === postSlug);
+        const foundIdx = allPosts.findIndex(p => p.slug === postSlug);
         if (foundIdx !== -1) openPostPage(null, foundIdx);
       } else {
         showHome();
