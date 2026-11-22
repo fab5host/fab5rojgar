@@ -1,245 +1,421 @@
-import csv
-import datetime
-import io
-import json
+
 import os
 import re
-from urllib.parse import urljoin, urlparse
-from bs4 import BeautifulSoup
-import google.generativeai as genai
+import json
+import html
+import hashlib
+import time
+from datetime import datetime, timezone
+from urllib.parse import quote, urlparse, parse_qs
+from pathlib import Path
+
 import requests
-import urllib3
+import feedparser
+from bs4 import BeautifulSoup
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+ROOT = Path(__file__).parent
+OUT = ROOT / "auto_jobs"
+PAGES = OUT / "pages"
+OUT.mkdir(exist_ok=True)
+PAGES.mkdir(exist_ok=True)
 
-# Gemini API Setup
-api_key = os.environ.get("GEMINI_API_KEY")
-if api_key:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-else:
-    model = None
+JSON_FILE = OUT / "jobs.json"
+INDEX_FILE = OUT / "index.html"
 
-# Apni Google Sheet ka Publish-to-Web CSV link yahan paste karein:
-GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPVncNeZZvPTkyWLcog4jVRl2SqR2UNtjSPOY_ULlEZE-zY7eS5kwcrLMrPPTdFGPV0Jj3LmSsCWUS/pub?gid=0&single=true&output=csv"
-
-FREEJOBALERT_URL = "https://www.freejobalert.com/"
 HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        " (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
-    )
+    "User-Agent": "FAB5HOST Vacancy Monitor/1.0 (public job information)"
 }
 
-OFFICIAL_DOMAINS = (
-    ".gov.in",
-    ".nic.in",
-    ".ac.in",
-    ".org.in",
-    "ibps.in",
+SEARCHES = [
+    'site:freejobalert.com latest recruitment vacancy',
+    'site:sarkariresult.com latest recruitment vacancy',
+    'government recruitment notification India latest',
+    'site:gov.in recruitment notification latest',
+    'site:nic.in recruitment notification latest'
+]
+
+# Official application domains only.
+OFFICIAL_DOMAINS = {
     "ssc.gov.in",
     "upsc.gov.in",
-    "rrbcdg.gov.in",
     "nta.ac.in",
-)
+    "ibps.in",
+    "rrbapply.gov.in",
+    "indianrailways.gov.in",
+    "joinindianarmy.nic.in",
+    "joinindiannavy.gov.in",
+    "agnipathvayu.cdac.in",
+    "drdo.gov.in",
+    "esic.gov.in",
+    "epfindia.gov.in",
+    "indiapost.gov.in",
+    "sbi.co.in",
+    "hssc.gov.in",
+    "hpsc.gov.in",
+    "psc.gov.in",
+}
 
+BLOCKED_PUBLIC_DOMAINS = {
+    "freejobalert.com",
+    "sarkariresult.com",
+    "sarkariresult.com.cm",
+}
 
-def is_official_gov_url(url):
-    if not url or not url.startswith("http"):
+def clean_text(value):
+    value = html.unescape(value or "")
+    value = re.sub(r"\s+", " ", value)
+    return value.strip()
+
+def domain(url):
+    try:
+        return urlparse(url).netloc.lower().replace("www.", "")
+    except Exception:
+        return ""
+
+def is_blocked(url):
+    d = domain(url)
+    return any(d == x or d.endswith("." + x)
+               for x in BLOCKED_PUBLIC_DOMAINS)
+
+def is_official(url):
+    d = domain(url)
+
+    if not d or is_blocked(url):
         return False
-    domain = urlparse(url).netloc.lower()
-    return any(domain.endswith(ext) or domain == ext.lstrip(".") for ext in OFFICIAL_DOMAINS)
 
+    if d in OFFICIAL_DOMAINS:
+        return True
 
-def make_copyright_free(text):
-    if not model:
-        return text
+    # Government domains
+    if d.endswith(".gov.in"):
+        return True
+
+    if d.endswith(".nic.in"):
+        return True
+
+    return False
+
+def slugify(title):
+    title = title.lower()
+    title = re.sub(r"[^a-z0-9]+", "-", title)
+    title = title.strip("-")[:90]
+
+    if not title:
+        title = hashlib.md5(
+            str(time.time()).encode()
+        ).hexdigest()[:12]
+
+    return title
+
+def fetch(url, timeout=20):
     try:
-        prompt = (
-            "Rewrite this Indian government exam/job headline cleanly in English "
-            "without changing department names, post names, or numbers. "
-            f"Keep it concise (under 10 words) and unique: '{text}'"
+        r = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=timeout
         )
-        response = model.generate_content(prompt)
-        return response.text.strip().replace('"', "").replace("*", "")
+        r.raise_for_status()
+        return r.text
+    except Exception as e:
+        print("Fetch error:", url, e)
+        return ""
+
+def google_news_rss(query):
+    url = (
+        "https://news.google.com/rss/search?q="
+        + quote(query)
+        + "&hl=en-IN&gl=IN&ceid=IN:en"
+    )
+
+    feed = feedparser.parse(url)
+    items = []
+
+    for entry in feed.entries[:20]:
+        items.append({
+            "title": clean_text(entry.get("title")),
+            "url": entry.get("link", ""),
+            "date": entry.get("published", "")
+        })
+
+    return items
+
+def resolve_google_url(url):
+    # RSS URLs sometimes redirect to the real article.
+    try:
+        r = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=15,
+            allow_redirects=True
+        )
+        return r.url
     except Exception:
-        return text
-
-
-def categorize_item(title):
-    t = title.lower()
-    if "admit card" in t or "call letter" in t or "hall ticket" in t or "exam city" in t:
-        return "admit_cards"
-    elif "result" in t or "merit list" in t or "cut off" in t or "score card" in t:
-        return "results"
-    elif "answer key" in t or "response sheet" in t:
-        return "answer_keys"
-    else:
-        return "latest_jobs"
-
-
-def load_existing_data():
-    default_data = {
-        "updated_at": datetime.datetime.now().strftime("%d/%m/%Y"),
-        "latest_jobs": [],
-        "admit_cards": [],
-        "results": [],
-        "answer_keys": [],
-    }
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                loaded = json.load(f)
-                for key in ["latest_jobs", "admit_cards", "results", "answer_keys"]:
-                    if key not in loaded or not isinstance(loaded[key], list):
-                        loaded[key] = []
-                return loaded
-        except Exception as e:
-            print(f"Error reading data.json: {e}")
-    return default_data
-
-
-def extract_official_link_if_needed(url):
-    """Agar sheet mein sarkariresult ka link hai to andar se asli .gov.in link nikalta hai"""
-    if is_official_gov_url(url):
         return url
-    if "sarkariresult.com" not in url:
-        return None
-    try:
-        res = requests.get(url, headers=HEADERS, timeout=12, verify=False)
-        if res.status_code != 200:
-            return None
-        soup = BeautifulSoup(res.text, "html.parser")
-        for a in soup.find_all("a", href=True):
-            href = a["href"].strip()
-            if is_official_gov_url(href):
-                return href
-    except Exception:
-        pass
-    return None
 
+def extract_article(url):
+    page = fetch(url)
 
-def fetch_from_google_sheet(new_items, seen_titles, seen_urls):
-    if not GOOGLE_SHEET_CSV_URL.startswith("http"):
-        print("Google Sheet CSV URL not set yet.")
-        return
+    if not page:
+        return "", [], ""
 
-    print("Fetching Sarkari Result data from Google Sheet...")
-    try:
-        res = requests.get(GOOGLE_SHEET_CSV_URL, timeout=15)
-        res.raise_for_status()
-        reader = csv.reader(io.StringIO(res.text))
-        rows = list(reader)
+    soup = BeautifulSoup(page, "html.parser")
 
-        # Header row skip karein agar pehli row mein 'Title' ya 'Post' likha ho
-        start_idx = 1 if rows and any("title" in c.lower() or "post" in c.lower() for c in rows[0]) else 0
+    for tag in soup([
+        "script", "style", "noscript",
+        "iframe", "nav", "footer", "header"
+    ]):
+        tag.decompose()
 
-        for row in rows[start_idx:]:
-            if len(row) < 2:
-                continue
+    title = ""
+    if soup.title:
+        title = clean_text(soup.title.get_text())
 
-            # Row ke columns se Title aur URL auto-detect karein
-            raw_title = ""
-            raw_url = ""
-            for cell in row:
-                cell = cell.strip()
-                if cell.startswith("http") and not raw_url:
-                    raw_url = cell
-                elif len(cell) > 10 and not raw_title:
-                    raw_title = cell
+    paragraphs = []
 
-            if not raw_title or not raw_url or raw_title.lower() in seen_titles:
-                continue
+    for p in soup.find_all(["p", "li"]):
+        text = clean_text(p.get_text(" ", strip=True))
 
-            # Official .gov.in / .nic.in link verify karein
-            verified_url = extract_official_link_if_needed(raw_url)
-            if not verified_url or verified_url in seen_urls:
-                continue
+        if len(text) > 35:
+            paragraphs.append(text)
 
-            category = categorize_item(raw_title)
-            clean_title = make_copyright_free(raw_title)
-            if clean_title.lower() in seen_titles:
-                continue
+    paragraphs = list(dict.fromkeys(paragraphs))
 
-            seen_titles.add(raw_title.lower())
-            seen_titles.add(clean_title.lower())
-            seen_urls.add(verified_url)
+    official_links = []
 
-            new_items[category].append({
-                "title": clean_title,
-                "url": verified_url,
-                "department": clean_title.split()[0] + " Recruitment Board",
-                "date": datetime.datetime.now().strftime("%d/%m/%Y"),
+    for a in soup.find_all("a", href=True):
+        link = a["href"]
+        text = clean_text(a.get_text(" ", strip=True))
+
+        if link.startswith("http") and is_official(link):
+            official_links.append({
+                "text": text,
+                "url": link
             })
-            print(f"[SHEET -> {category.upper()}] {clean_title} -> {verified_url}")
-    except Exception as e:
-        print(f"Google Sheet Fetch Error: {e}")
 
+    return title, paragraphs[:100], official_links
 
-def fetch_freejobalert(new_items, seen_titles, seen_urls):
-    print("Fetching updates from FreeJobAlert...")
-    try:
-        response = requests.get(FREEJOBALERT_URL, headers=HEADERS, timeout=15, verify=False)
-        soup = BeautifulSoup(response.text, "html.parser")
-        links = soup.select("table.qltpmnu a, .gb-inside-container a")
+def vacancy_like(title, text):
+    content = (title + " " + text).lower()
 
-        for link in links:
-            raw_title = link.text.strip()
-            href = link.get("href", "#")
-            if (
-                not raw_title
-                or len(raw_title) < 10
-                or raw_title.lower() in seen_titles
-                or href in seen_urls
-                or not href.startswith("http")
-            ):
+    keywords = [
+        "recruitment", "vacancy", "jobs", "job",
+        "apply online", "notification", "admit card",
+        "result", "government", "bharti", " भर्ती",
+        "rojgar", "application form"
+    ]
+
+    return any(k in content for k in keywords)
+
+def find_official_apply(links):
+    for item in links:
+        if is_official(item["url"]):
+            text = item["text"].lower()
+
+            if any(k in text for k in [
+                "apply", "online", "registration",
+                "application", "official website"
+            ]):
+                return item["url"]
+
+    # If we cannot confidently identify an Apply link,
+    # use no link rather than an unofficial one.
+    return ""
+
+def make_page(job):
+    title = html.escape(job["title"])
+    details = job["details"]
+    paragraphs = "".join(
+        "<p>" + html.escape(p) + "</p>"
+        for p in details[:45]
+    )
+
+    apply_button = ""
+
+    if job.get("official_apply"):
+        apply_button = f"""
+        <a class="apply"
+           href="{html.escape(job['official_apply'], quote=True)}"
+           target="_blank"
+           rel="noopener noreferrer">
+           Official Apply Website
+        </a>
+        """
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title} | FAB5HOST</title>
+<meta name="description"
+content="{html.escape(title)} government vacancy information and notification details.">
+<link rel="canonical"
+href="https://fab5host.page.gd/auto_jobs/pages/{job['slug']}.html">
+<style>
+body{{font-family:Arial,sans-serif;background:#f4f7fb;
+margin:0;color:#182238}}
+header{{background:#101c3b;color:white;padding:22px}}
+main{{max-width:900px;margin:20px auto;padding:20px;
+background:white;border-radius:12px}}
+h1{{line-height:1.4}}
+p{{line-height:1.8}}
+.apply{{display:inline-block;background:#087b42;color:white;
+padding:14px 20px;border-radius:8px;text-decoration:none;
+font-weight:bold;margin:15px 0}}
+.notice{{padding:12px;background:#fff3cd;border-radius:8px}}
+footer{{padding:20px;text-align:center}}
+</style>
+</head>
+<body>
+<header>
+<a href="../../index.html" style="color:white">FAB5HOST</a>
+</header>
+<main>
+<h1>{title}</h1>
+<p>Information updated:
+{html.escape(job["updated"])}</p>
+<div class="notice">
+Please verify dates, eligibility and documents
+from the official notification before applying.
+</div>
+{apply_button}
+<h2>Recruitment Details</h2>
+{paragraphs}
+{apply_button}
+</main>
+<footer>FAB5HOST — Government Job Updates</footer>
+</body>
+</html>
+"""
+
+    (PAGES / f"{job['slug']}.html").write_text(
+        page, encoding="utf-8"
+    )
+
+def create_index(jobs):
+    cards = []
+
+    for job in jobs:
+        cards.append(f"""
+        <article>
+        <h3>
+        <a href="pages/{html.escape(job['slug'])}.html">
+        {html.escape(job['title'])}
+        </a>
+        </h3>
+        <p>{html.escape(job['updated'])}</p>
+        </article>
+        """)
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latest Government Jobs | FAB5HOST</title>
+<style>
+body{{font-family:Arial;background:#f3f6fb;padding:15px}}
+article{{background:white;padding:16px;margin:12px 0;
+border-radius:10px}}
+a{{color:#075bb5}}
+</style>
+</head>
+<body>
+<h1>Latest Government Jobs</h1>
+{''.join(cards)}
+</body>
+</html>"""
+
+    INDEX_FILE.write_text(page, encoding="utf-8")
+
+def main():
+    existing = []
+
+    if JSON_FILE.exists():
+        try:
+            existing = json.loads(
+                JSON_FILE.read_text(encoding="utf-8")
+            )
+        except Exception:
+            existing = []
+
+    if not isinstance(existing, list):
+        existing = []
+
+    known = {
+        j.get("id")
+        for j in existing
+        if isinstance(j, dict)
+    }
+
+    added = 0
+
+    for query in SEARCHES:
+        print("Searching:", query)
+
+        for item in google_news_rss(query):
+            url = resolve_google_url(item["url"])
+
+            # Do not publish source-site URLs.
+            if is_blocked(url):
+                # Still inspect internally, but never use it as
+                # a public link.
+                pass
+
+            article_title, paragraphs, links = extract_article(url)
+
+            title = item["title"] or article_title
+
+            combined = " ".join(paragraphs)
+
+            if not vacancy_like(title, combined):
                 continue
 
-            category = categorize_item(raw_title)
-            clean_title = make_copyright_free(raw_title)
-            if clean_title.lower() in seen_titles:
+            if len(combined) < 100:
                 continue
 
-            seen_titles.add(raw_title.lower())
-            seen_titles.add(clean_title.lower())
-            seen_urls.add(href)
+            job_id = hashlib.sha256(
+                title.lower().encode()
+            ).hexdigest()[:16]
 
-            new_items[category].append({
-                "title": clean_title,
-                "url": href,
-                "department": clean_title.split()[0] + " Recruitment Board",
-                "date": datetime.datetime.now().strftime("%d/%m/%Y"),
-            })
-    except Exception as e:
-        print(f"Error fetching FreeJobAlert: {e}")
+            if job_id in known:
+                continue
 
+            official = find_official_apply(links)
 
-def run_scraper():
-    existing_data = load_existing_data()
-    seen_titles = set()
-    seen_urls = set()
+            slug = slugify(title)
 
-    for cat in ["latest_jobs", "admit_cards", "results", "answer_keys"]:
-        for item in existing_data[cat]:
-            seen_titles.add(item.get("title", "").lower())
-            seen_urls.add(item.get("url", ""))
+            job = {
+                "id": job_id,
+                "slug": slug,
+                "title": title,
+                "details": paragraphs,
+                "official_apply": official,
+                "updated": datetime.now(
+                    timezone.utc
+                ).strftime("%Y-%m-%d %H:%M UTC")
+            }
 
-    new_items = {"latest_jobs": [], "admit_cards": [], "results": [], "answer_keys": []}
+            existing.insert(0, job)
+            known.add(job_id)
 
-    # 1. Google Sheet se Sarkari Result ka data
-    fetch_from_google_sheet(new_items, seen_titles, seen_urls)
+            make_page(job)
+            added += 1
 
-    # 2. FreeJobAlert ka pehle se chal raha data
-    fetch_freejobalert(new_items, seen_titles, seen_urls)
+            print("Added:", title)
 
-    existing_data["updated_at"] = datetime.datetime.now().strftime("%d/%m/%Y")
-    for cat in ["latest_jobs", "admit_cards", "results", "answer_keys"]:
-        existing_data[cat] = new_items[cat] + existing_data[cat]
+            time.sleep(2)
 
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(existing_data, f, indent=2, ensure_ascii=False)
-    print("data.json updated safely!")
+    # Preserve existing entries; only add new ones.
+    JSON_FILE.write_text(
+        json.dumps(existing, ensure_ascii=False, indent=2),
+        encoding="utf-8"
+    )
 
+    create_index(existing)
+
+    print("New jobs:", added)
+    print("Total:", len(existing))
 
 if __name__ == "__main__":
-    run_scraper()
+    main()
