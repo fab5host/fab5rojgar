@@ -1,0 +1,37 @@
+
+name: FAB5HOST Automatic Vacancy Update
+
+on:
+  schedule:
+    - cron: "15,45 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-vacancies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Website
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Requirements
+        run: pip install -r requirements.txt
+
+      - name: Run Vacancy Scraper
+        run: python scraper.py
+
+      - name: Save Updated Pages
+        run: |
+          git config user.name "FAB5HOST Bot"
+          git config user.email "actions@github.com"
+          git add auto_jobs
+          git diff --cached --quiet || git commit -m "Automatic vacancy update"
+          git push
